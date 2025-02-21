@@ -13,7 +13,7 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background-color: #FFC0CB; /* 页面背景改为粉色 */
         }
 
         h1 {
@@ -34,7 +34,7 @@
             border-radius: 20px;
             border: none;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: transform 0.3s; /* 允许按钮有过渡动画 */
         }
 
         .moveButton {
@@ -77,7 +77,8 @@
 
         function handleCan() {
             const button = document.querySelector('.canButton');
-            button.style.transform = 'scale(1.5)';
+            button.style.transform = 'scale(1.5)'; /* 点击“能”按钮时，按钮慢慢放大 */
+            button.focus(); /* 获得焦点，增加交互感 */
             alert('好的！');
         }
     </script>
