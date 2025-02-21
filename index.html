@@ -40,11 +40,13 @@
         .likeButton {
             background-color: #4CAF50;
             color: white;
+            transition: transform 0.3s;
         }
 
         .dislikeButton {
             background-color: #FF8C00;
             color: white;
+            transition: transform 0.3s;
         }
 
         .moveButton {
@@ -64,8 +66,14 @@
     <script>
         let dislikeMoveInterval;
         let dislikeClickedCount = 0; // 记录不喜欢被点击的次数
+        let likeScale = 1; // 喜欢按钮的初始缩放比例
+        let dislikeScale = 1; // 不喜欢按钮的初始缩放比例
+        let scalingInterval; // 动态缩放的定时器
+        let isScaling = true; // 控制是否开启动态缩放
 
         function handleLike() {
+            clearInterval(scalingInterval); // 暂停动态缩放
+            isScaling = false; // 关闭动态缩放
             const likeButton = document.getElementById('likeButton');
             likeButton.style.transform = 'scale(1.5)'; // 点击喜欢按钮，放大到1.5倍
             alert('好耶！');
@@ -95,6 +103,37 @@
                     dislikeButton.style.top = `${randomY}px`;
                 }, 500);
             }
+        }
+
+        // 动态缩放功能
+        function startScaling() {
+            scalingInterval = setInterval(() => {
+                if (isScaling) { // 只有开启动态缩放时才执行
+                    likeScale += 0.001; // 喜欢按钮逐渐变大
+                    dislikeScale -= 0.001; // 不喜欢按钮逐渐变小
+
+                    // 确保按钮的缩放比例不小于0.5，不大于2
+                    likeScale = Math.min(likeScale, 2);
+                    dislikeScale = Math.max(dislikeScale, 0.5);
+
+                    const likeButton = document.getElementById('likeButton');
+                    const dislikeButton = document.getElementById('dislikeButton');
+
+                    likeButton.style.transform = `scale(${likeScale})`;
+                    dislikeButton.style.transform = `scale(${dislikeScale})`;
+                }
+            }, 50);
+        }
+
+        // 页面加载后启动动态缩放
+        window.onload = () => {
+            startScaling();
+        };
+
+        // 恢复动态缩放（例如当用户再次点击“喜欢”按钮后）
+        function resumeScaling() {
+            isScaling = true;
+            startScaling();
         }
     </script>
 </body>
