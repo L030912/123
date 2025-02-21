@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>能不能和我谈恋爱</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .moveButton {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .canButton {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .cannotButton {
+            background-color: #FF8C00;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>能不能和我谈恋爱</h1>
+    <div class="options">
+        <button class="canButton" onclick="handleCan()">能</button>
+        <button class="cannotButton moveButton" onclick="handleCannot()">不能</button>
+    </div>
+
+    <script>
+        let moveInterval;
+
+        function handleCannot() {
+            const button = document.querySelector('.cannotButton');
+            clearInterval(moveInterval);
+            moveInterval = setInterval(() => {
+                const randomX = Math.floor(Math.random() * (window.innerWidth - button.offsetWidth));
+                const randomY = Math.floor(Math.random() * (window.innerHeight - button.offsetHeight));
+                button.style.left = `${randomX}px`;
+                button.style.top = `${randomY}px`;
+            }, 500);
+        }
+
+        function handleCan() {
+            const button = document.querySelector('.canButton');
+            button.style.transform = 'scale(1.5)';
+            alert('好的！');
+        }
+    </script>
+</body>
+</html>
