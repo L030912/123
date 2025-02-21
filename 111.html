@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>能不能和我谈恋爱</title>
+    <title>你喜欢我吗</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +13,7 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background-color: #FFC0CB; /* 页面背景改为粉色 */
+            background-color: #FFC0CB; /* 粉色背景 */
         }
 
         h1 {
@@ -34,7 +34,17 @@
             border-radius: 20px;
             border: none;
             cursor: pointer;
-            transition: transform 0.3s; /* 允许按钮有过渡动画 */
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .likeButton {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .dislikeButton {
+            background-color: #FF8C00;
+            color: white;
         }
 
         .moveButton {
@@ -42,44 +52,49 @@
             top: 0;
             left: 0;
         }
-
-        .canButton {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .cannotButton {
-            background-color: #FF8C00;
-            color: white;
-        }
     </style>
 </head>
 <body>
-    <h1>能不能和我谈恋爱</h1>
+    <h1>你喜欢我吗</h1>
     <div class="options">
-        <button class="canButton" onclick="handleCan()">能</button>
-        <button class="cannotButton moveButton" onclick="handleCannot()">不能</button>
+        <button class="likeButton" id="likeButton" onclick="handleLike()">喜欢</button>
+        <button class="dislikeButton moveButton" id="dislikeButton" onclick="handleDislike()">不喜欢</button>
     </div>
 
     <script>
-        let moveInterval;
+        let dislikeMoveInterval;
+        let dislikeClickedCount = 0; // 记录不喜欢被点击的次数
 
-        function handleCannot() {
-            const button = document.querySelector('.cannotButton');
-            clearInterval(moveInterval);
-            moveInterval = setInterval(() => {
-                const randomX = Math.floor(Math.random() * (window.innerWidth - button.offsetWidth));
-                const randomY = Math.floor(Math.random() * (window.innerHeight - button.offsetHeight));
-                button.style.left = `${randomX}px`;
-                button.style.top = `${randomY}px`;
-            }, 500);
+        function handleLike() {
+            const likeButton = document.getElementById('likeButton');
+            likeButton.style.transform = 'scale(1.5)'; // 点击喜欢按钮，放大到1.5倍
+            alert('好耶！');
         }
 
-        function handleCan() {
-            const button = document.querySelector('.canButton');
-            button.style.transform = 'scale(1.5)'; /* 点击“能”按钮时，按钮慢慢放大 */
-            button.focus(); /* 获得焦点，增加交互感 */
-            alert('好的！');
+        function handleDislike() {
+            const likeButton = document.getElementById('likeButton');
+            const dislikeButton = document.getElementById('dislikeButton');
+
+            dislikeClickedCount++;
+
+            if (dislikeClickedCount === 1) {
+                // 第一次点击不喜欢，缩小“不喜欢”按钮，放大“喜欢”按钮
+                dislikeButton.style.transform = 'scale(0.8)';
+                likeButton.style.transform = 'scale(1.2)';
+            } else if (dislikeClickedCount === 2) {
+                // 第二次点击不喜欢，开始移动“不喜欢”按钮，继续放大“喜欢”按钮
+                likeButton.style.transform = 'scale(1.5)';
+                dislikeButton.style.transform = 'scale(0.8)';
+
+                // 移动逻辑
+                clearInterval(dislikeMoveInterval);
+                dislikeMoveInterval = setInterval(() => {
+                    const randomX = Math.floor(Math.random() * (window.innerWidth - dislikeButton.offsetWidth));
+                    const randomY = Math.floor(Math.random() * (window.innerHeight - dislikeButton.offsetHeight));
+                    dislikeButton.style.left = `${randomX}px`;
+                    dislikeButton.style.top = `${randomY}px`;
+                }, 500);
+            }
         }
     </script>
 </body>
